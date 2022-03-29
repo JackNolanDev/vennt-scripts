@@ -1,0 +1,12 @@
+{
+  "name": "vennt-item-parser",
+  "version": "1.0.0",
+  "description": "Parses items",
+  "main": "index.js",
+  "author": "Jack Nolan",
+  "license": "MIT",
+  "dependencies": {
+    "axios": "^0.26.1",
+    "cheerio": "^1.0.0-rc.10"
+  }
+}
