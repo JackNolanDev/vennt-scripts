@@ -13,6 +13,33 @@ const specialBulkMap = {
     "Fighter Candy": 0,
 }
 
+const defaultWeapons = [
+    {
+        type: "weapon",
+        section: "Weapons",
+        bulk: 1,
+        name: "Melee Blade",
+        courses: "",
+        cost: "0 sp",
+        sp: 0,
+        desc: "All Three Rivers Guild adventurers are equipped with a sharp Blade to keep at their side for "
+            + "close quarters encounters. You can make a melee attack at adjacent enemies. This weapon uses "
+            + "your Dexterity as its weapon Attribute and deals 1d6+3 damage.",
+    },
+    {
+        type: "weapon",
+        section: "Weapons",
+        bulk: 1,
+        name: "Ranged Sidearm",
+        courses: "",
+        cost: "0 sp",
+        sp: 0,
+        desc: "All Three Rivers Guild adventurers are equipped with a Sidearm pistol that can shoot at a distance. "
+            + "You can make a ranged attack at anything you can see. This weapon uses your Dexterity as its weapon "
+            + "Attribute and deals 1d6 damage.",
+    },
+];
+
 const parseTable = ($, selector, type, section) => {
     const items = [];
     // Adventuring Gear table
@@ -121,7 +148,7 @@ const runScript = async () => {
         });
         return items;
     })
-    const items = equipment.concat(consumables, containers);
+    const items = equipment.concat(consumables, containers, defaultWeapons);
     const itemStr = JSON.stringify(items);
     // write to file
     fs.writeFileSync('items.json', itemStr);
