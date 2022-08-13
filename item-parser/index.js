@@ -25,6 +25,9 @@ const defaultWeapons = [
         desc: "All Three Rivers Guild adventurers are equipped with a sharp Blade to keep at their side for "
             + "close quarters encounters. You can make a melee attack at adjacent enemies. This weapon uses "
             + "your Dexterity as its weapon Attribute and deals 1d6+3 damage.",
+        attr: "dex",
+        dmg: "1d6+3",
+        range: 1
     },
     {
         type: "weapon",
@@ -37,6 +40,9 @@ const defaultWeapons = [
         desc: "All Three Rivers Guild adventurers are equipped with a Sidearm pistol that can shoot at a distance. "
             + "You can make a ranged attack at anything you can see. This weapon uses your Dexterity as its weapon "
             + "Attribute and deals 1d6 damage.",
+        attr: "dex",
+        dmg: "1d6",
+        range: 15
     },
 ];
 
@@ -107,7 +113,6 @@ const runScript = async () => {
     });
     const containers = await axios.get(CONTAINER_URL).then((response) => {
         const $ = cheerio.load(response.data);
-
         const items = [];
         const table = $('#mw-content-text > div > table > tbody');
         const tableElements = table.children('tr');

@@ -1,0 +1,12 @@
+{
+  "name": "weapon-parser",
+  "version": "1.0.0",
+  "description": "webscrapes stats for weapon types",
+  "main": "index.js",
+  "author": "Jack Nolan",
+  "license": "MIT",
+  "dependencies": {
+    "axios": "^0.27.2",
+    "cheerio": "^1.0.0-rc.12"
+  }
+}
