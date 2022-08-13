@@ -3,7 +3,11 @@ Scripts for Vennt to help with development.
 
 ### item-parser
 
-webscrapes equipment, consumables, and item containers from the wiki and puts them into a conviniently formatted json file for use elsewhere.
+Webscrapes equipment, consumables, item containers, and weapons from the wiki and puts them into a conviniently formatted json file for use elsewhere.
+
+### weapon-parser
+
+Webscrapes weapon types from the wiki and puts them in a json file for easy use.
 
 ---
 
