@@ -5,7 +5,7 @@ const fs = require('fs')
 const WEAPONS_URL = 'https://vennt.fandom.com/wiki/Weapons';
 
 const sectionMap = {
-    Type: "type",
+    Type: "weaponType",
     Range: "range",
     Bulk: "bulk",
     Attribute: "attr",
@@ -34,6 +34,7 @@ const getWeaponTypes = (page) => {
     weaponHeadlines.each((idx, el) => {
         const weapon = {};
         weapon.category = $(el).text();
+        weapon.type = 'weapon';
         const parent = $(el.parent);
         parent.nextUntil('h3').each((idx, el) => {
             const section = $(el).children('b').first().text();
