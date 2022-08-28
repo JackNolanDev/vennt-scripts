@@ -10,6 +10,7 @@ const CONTAINER_URL = 'https://vennt.fandom.com/wiki/Item_Containers';
 const ADVANCED_WEAPONS_URL = 'https://vennt.fandom.com/wiki/Advanced_weapons';
 const ADVANCED_AMMO_URL = 'https://vennt.fandom.com/wiki/Advanced_ammo';
 const GRENADES_URL = 'https://vennt.fandom.com/wiki/Grenades';
+const ARMOR_URL = 'https://vennt.fandom.com/wiki/Armor';
 
 const specialBulkMap = {
     "Camping Supplies": 5,
@@ -30,6 +31,7 @@ const defaultWeapons = [
         desc: "All Three Rivers Guild adventurers are equipped with a sharp Blade to keep at their side for "
             + "close quarters encounters. You can make a melee attack at adjacent enemies. This weapon uses "
             + "your Dexterity as its weapon Attribute and deals 1d6+3 damage.",
+        weaponType: "Melee",
         attr: "dex",
         dmg: "1d6+3",
         range: "1m"
@@ -45,6 +47,7 @@ const defaultWeapons = [
         desc: "All Three Rivers Guild adventurers are equipped with a Sidearm pistol that can shoot at a distance. "
             + "You can make a ranged attack at anything you can see. This weapon uses your Dexterity as its weapon "
             + "Attribute and deals 1d6 damage.",
+        weaponType: "Ranged",
         attr: "dex",
         dmg: "1d6",
         range: "15m"
@@ -189,6 +192,7 @@ const getAdvancedWeapons = (page) => {
                 }
             }
         })
+        delete weapon.examples;
         weapons.push(weapon);
     });
     return weapons;
@@ -247,6 +251,7 @@ const getGrenades = (page) => {
                     break;
             }
         });
+        delete grenade.examples;
         grenades.push(grenade);
     });
     return grenades;
@@ -290,6 +295,102 @@ const getAdvancedAmmo = (page) => {
     return items;
 }
 
+getArmor = (page) => {
+    const $ = cheerio.load(page);
+    const items = [];
+    const tables = $('.wikitable');
+    tables.each((idx, table) => {
+        switch (idx) {
+            case 0:
+                const armorElements = $(table).children().first().children('tr');
+                armorElements.each((idx, row) => {
+                    if (idx === 0) {
+                        // first row for wiki tables is header
+                        return;
+                    }
+                    const item = { type: "armor", section: "Armor" };
+                    const rowElements = $(row).children('td');
+                    let armorValue = ''
+                    rowElements.each((idx, el) => {
+                        const text = $(el).text().trim();
+                        switch (idx) {
+                            case 0:
+                                item.name = text;
+                                break;
+                            case 1:
+                                armorValue = `Armor Value: ${text}`;
+                                break;
+                            case 2:
+                                item.desc = `${armorValue}, Burden: ${text}`
+                                break;
+                            case 3:
+                                let bulk = parseInt(text);
+                                if (isNaN(bulk)) {
+                                    bulk = 0;
+                                }
+                                item.bulk = bulk;
+                                break;
+                            case 4:
+                                item.cost = text;
+                                const numVal = parseInt(text);
+                                if (text.includes('sp') && !isNaN(numVal)) {
+                                    item.sp = numVal;
+                                }
+                                break;
+                        }
+                    });
+                    items.push(item);
+                });
+                break;
+            case 1:
+                const shieldElements = $(table).children().first().children('tr');
+                shieldElements.each((idx, row) => {
+                    if (idx === 0) {
+                        // first row for wiki tables is header
+                        return;
+                    }
+                    const item = { type: "shield", section: "Shields" };
+                    const rowElements = $(row).children('td');
+                    let shieldBonus = ''
+                    rowElements.each((idx, el) => {
+                        const text = $(el).text().trim();
+                        switch (idx) {
+                            case 0:
+                                item.name = text;
+                                break;
+                            case 1:
+                                shieldBonus = `Shield Bonus: ${text}`;
+                                break;
+                            case 2:
+                                item.special = `Hands Required to Equip: ${text}`;
+                                break;
+                            case 3:
+                                item.desc = `${shieldBonus}, Burden: ${text}`
+                                break;
+                            case 4:
+                                let bulk = parseInt(text);
+                                if (isNaN(bulk)) {
+                                    bulk = 0;
+                                }
+                                item.bulk = bulk;
+                                break;
+                            case 5:
+                                item.cost = text;
+                                const numVal = parseInt(text);
+                                if (text.includes('sp') && !isNaN(numVal)) {
+                                    item.sp = numVal;
+                                }
+                                break;
+                        }
+                    });
+                    items.push(item);
+                });
+                break;
+        }
+    });
+    return items;
+}
+
 const runScript = async () => {
     const equipment = await axios.get(EQUIPMENT_URL).then((response) => {
         const $ = cheerio.load(response.data);
@@ -319,11 +420,13 @@ const runScript = async () => {
     const advancedAmmo = await axios.get(ADVANCED_AMMO_URL).then((response) => {
         return getAdvancedAmmo(response.data);
     });
-    const items = equipment.concat(consumables, advancedAmmo, containers, defaultWeapons, grenades, advancedWeapons);
+    const armor = await axios.get(ARMOR_URL).then((response) => {
+        return getArmor(response.data);
+    });
+    const items = equipment.concat(consumables, advancedAmmo, containers, defaultWeapons, grenades, advancedWeapons, armor);
     const itemStr = JSON.stringify(items);
     // write to file
     fs.writeFileSync('items.json', itemStr);
-    //console.log(items);
 };
 
 runScript();
