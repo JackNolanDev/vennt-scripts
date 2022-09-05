@@ -1,0 +1,94 @@
+{
+    "Elixir of Energy*": {
+        "roll": {
+            "dice": "6d6",
+            "attr": "vim"
+        }
+    },
+    "Elixir of Focus*": {
+        "roll": {
+            "dice": "3d6",
+            "attr": "mp"
+        }
+    },
+    "Elixir of Life*": {
+        "roll": {
+            "dice": "3d6",
+            "attr": "hp"
+        }
+    },
+    "Fighter Candy": {
+        "heal": {
+            "attr": {
+                "hp": 1,
+                "vim": 3
+            }
+        }
+    },
+    "Godfire": {
+        "roll": {
+            "dice": "2d6",
+            "attr": "hp"
+        }
+    },
+    "Potion, Healing": {
+        "roll": {
+            "dice": "3d6",
+            "attr": "hp"
+        }
+    },
+    "Potion, Mana": {
+        "roll": {
+            "dice": "2d6",
+            "attr": "mp"
+        }
+    },
+    "Potion, Vigor": {
+        "roll": {
+            "dice": "4d6",
+            "attr": "vim"
+        }
+    },
+    "Rations": {
+        "heal": {
+            "attr": {
+                "hp": 1,
+                "mp": 1,
+                "vim": 3
+            }
+        }
+    },
+    "Rations, Expensive": {
+        "heal": {
+            "attr": {
+                "hp": 3,
+                "mp": 3,
+                "vim": 9
+            }
+        }
+    },
+    "Sour Blessing": {
+        "roll": {
+            "dice": "4d6",
+            "attr": "hp"
+        }
+    },
+    "Tasty Water": {
+        "heal": {
+            "attr": {
+                "hp": 3,
+                "mp": 3,
+                "vim": 6
+            }
+        }
+    },
+    "Tasty Water, Deluxe": {
+        "heal": {
+            "attr": {
+                "hp": 6,
+                "mp": 6,
+                "vim": 12
+            }
+        }
+    }
+}

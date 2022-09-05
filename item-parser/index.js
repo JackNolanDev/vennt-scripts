@@ -3,6 +3,7 @@ const cheerio = require('cheerio');
 const fs = require('fs')
 
 const weaponTypes = require("../weapon-parser/weaponTypes.json");
+const customUses = require("./customUses.json");
 
 const EQUIPMENT_URL = 'https://vennt.fandom.com/wiki/Equipment';
 const CONSUMABLE_URL = 'https://vennt.fandom.com/wiki/Consumables';
@@ -424,6 +425,14 @@ const runScript = async () => {
         return getArmor(response.data);
     });
     const items = equipment.concat(consumables, advancedAmmo, containers, defaultWeapons, grenades, advancedWeapons, armor);
+
+    // add custom uses
+    items.forEach((item) => {
+        if (customUses[item.name]) {
+            item.uses = customUses[item.name]
+        }
+    })
+
     const itemStr = JSON.stringify(items);
     // write to file
     fs.writeFileSync('items.json', itemStr);
