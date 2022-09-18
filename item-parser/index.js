@@ -309,7 +309,11 @@ getArmor = (page) => {
                         // first row for wiki tables is header
                         return;
                     }
-                    const item = { type: "armor", section: "Armor" };
+                    const item = {
+                        type: "armor",
+                        section: "Armor",
+                        uses: { adjust: { time: "permanent", attr: {} } },
+                    };
                     const rowElements = $(row).children('td');
                     let armorValue = ''
                     rowElements.each((idx, el) => {
@@ -320,9 +324,17 @@ getArmor = (page) => {
                                 break;
                             case 1:
                                 armorValue = `Armor Value: ${text}`;
+                                const parsedArmor = parseInt(text);
+                                if (!isNaN(parsedArmor)) {
+                                    item.uses.adjust.attr.armor = parsedArmor;
+                                }
                                 break;
                             case 2:
                                 item.desc = `${armorValue}, Burden: ${text}`
+                                const parsedBurden = parseInt(text);
+                                if (!isNaN(parsedBurden)) {
+                                    item.uses.adjust.attr.burden = parsedBurden;
+                                }
                                 break;
                             case 3:
                                 let bulk = parseInt(text);
@@ -350,7 +362,11 @@ getArmor = (page) => {
                         // first row for wiki tables is header
                         return;
                     }
-                    const item = { type: "shield", section: "Shields" };
+                    const item = {
+                        type: "shield",
+                        section: "Shields",
+                        uses: { adjust: { time: "permanent", attr: {} } },
+                    };
                     const rowElements = $(row).children('td');
                     let shieldBonus = ''
                     rowElements.each((idx, el) => {
@@ -361,12 +377,20 @@ getArmor = (page) => {
                                 break;
                             case 1:
                                 shieldBonus = `Shield Bonus: ${text}`;
+                                const parsedShield = parseInt(text);
+                                if (!isNaN(parsedShield)) {
+                                    item.uses.adjust.attr.shield = parsedShield;
+                                }
                                 break;
                             case 2:
                                 item.special = `Hands Required to Equip: ${text}`;
                                 break;
                             case 3:
                                 item.desc = `${shieldBonus}, Burden: ${text}`
+                                const parsedBurden = parseInt(text);
+                                if (!isNaN(parsedBurden)) {
+                                    item.uses.adjust.attr.burden = parsedBurden;
+                                }
                                 break;
                             case 4:
                                 let bulk = parseInt(text);
