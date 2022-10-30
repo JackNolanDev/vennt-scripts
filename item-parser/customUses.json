@@ -6,7 +6,7 @@
         "roll": { "dice": "3d6", "attr": "mp" }
     },
     "Elixir of Life*": {
-        "roll": {  "dice": "3d6", "attr": "hp" }
+        "roll": {  "dice": "6d6", "attr": "hp" }
     },
     "Godfire": {
         "roll": { "dice": "2d6", "attr": "hp" }
